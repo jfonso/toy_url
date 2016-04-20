@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :links
+
+  resources :urls
+
+  # You can have the root of your site routed with "root"
+  root 'urls#new'
+
+  get ':identifier' => 'links#alter_to', as: 'short_link'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
