@@ -48,6 +48,11 @@ group :development, :test do
 
 end
 
+group :development do
+  # The travis gem includes both a command line client and a Ruby library to interface with a Travis CI service
+  gem 'travis'
+end
+
 group :test do
   gem 'capybara'
 end
