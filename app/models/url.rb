@@ -1,4 +1,5 @@
 class Url < ActiveRecord::Base
+  validates :original, presence: true
   has_one :link
   attr_reader :custom
 
@@ -13,6 +14,15 @@ class Url < ActiveRecord::Base
     else
       url.destroy
       create_link( original )
+    end
+  end
+
+  def update_link( original, custom = nil )
+    if custom.blank? || !Link.where(identifier: custom).empty?
+      update( original: original )
+    else
+      link.update(identifier: custom)
+      update( original: original )
     end
   end
 end

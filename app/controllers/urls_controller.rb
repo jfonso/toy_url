@@ -25,20 +25,20 @@ class UrlsController < ApplicationController
   # POST /urls.json
   def create
     @url = Url.create_link(url_params[:original], url_params[:custom]).url
-    redirect_to @url, notice: 'Url was successfully created.'
+    if @url.persisted?
+      redirect_to @url, notice: 'Url was successfully created.'
+    else
+      render :new
+    end
   end
 
   # PATCH/PUT /urls/1
   # PATCH/PUT /urls/1.json
   def update
-    respond_to do |format|
-      if @url.update(url_params)
-        format.html { redirect_to @url, notice: 'Url was successfully updated.' }
-        format.json { render :show, status: :ok, location: @url }
-      else
-        format.html { render :edit }
-        format.json { render json: @url.errors, status: :unprocessable_entity }
-      end
+    if @url.update_link( url_params[:original], url_params[:custom])
+      redirect_to @url, notice: 'Url was successfully updated.'
+    else
+      render :edit
     end
   end
 

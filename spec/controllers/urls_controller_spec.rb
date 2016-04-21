@@ -24,11 +24,11 @@ RSpec.describe UrlsController, type: :controller do
   # Url. As you add validations to Url, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { original: "www.google.es", custom: "g" }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { original: "", custom: "g" }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -38,7 +38,7 @@ RSpec.describe UrlsController, type: :controller do
 
   describe "GET #index" do
     it "assigns all urls as @urls" do
-      url = Url.create! valid_attributes
+      url = Url.create_link(valid_attributes).url
       get :index, {}, valid_session
       expect(assigns(:urls)).to eq([url])
     end
@@ -46,7 +46,7 @@ RSpec.describe UrlsController, type: :controller do
 
   describe "GET #show" do
     it "assigns the requested url as @url" do
-      url = Url.create! valid_attributes
+      url = Url.create_link(valid_attributes).url
       get :show, {:id => url.to_param}, valid_session
       expect(assigns(:url)).to eq(url)
     end
@@ -61,7 +61,7 @@ RSpec.describe UrlsController, type: :controller do
 
   describe "GET #edit" do
     it "assigns the requested url as @url" do
-      url = Url.create! valid_attributes
+      url = Url.create_link(valid_attributes).url
       get :edit, {:id => url.to_param}, valid_session
       expect(assigns(:url)).to eq(url)
     end
@@ -103,24 +103,24 @@ RSpec.describe UrlsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { original: "www.ulpgc.es", custom: "uni" }
       }
 
       it "updates the requested url" do
-        url = Url.create! valid_attributes
+        url = Url.create_link(valid_attributes).url
         put :update, {:id => url.to_param, :url => new_attributes}, valid_session
         url.reload
-        skip("Add assertions for updated state")
+        expect(assigns(:url)).to eq(url)
       end
 
       it "assigns the requested url as @url" do
-        url = Url.create! valid_attributes
+        url = Url.create_link(valid_attributes).url
         put :update, {:id => url.to_param, :url => valid_attributes}, valid_session
         expect(assigns(:url)).to eq(url)
       end
 
       it "redirects to the url" do
-        url = Url.create! valid_attributes
+        url = Url.create_link(valid_attributes).url
         put :update, {:id => url.to_param, :url => valid_attributes}, valid_session
         expect(response).to redirect_to(url)
       end
@@ -128,13 +128,13 @@ RSpec.describe UrlsController, type: :controller do
 
     context "with invalid params" do
       it "assigns the url as @url" do
-        url = Url.create! valid_attributes
+        url = Url.create_link(valid_attributes).url
         put :update, {:id => url.to_param, :url => invalid_attributes}, valid_session
         expect(assigns(:url)).to eq(url)
       end
 
       it "re-renders the 'edit' template" do
-        url = Url.create! valid_attributes
+        url = Url.create_link(valid_attributes).url
         put :update, {:id => url.to_param, :url => invalid_attributes}, valid_session
         expect(response).to render_template("edit")
       end
@@ -143,14 +143,14 @@ RSpec.describe UrlsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested url" do
-      url = Url.create! valid_attributes
+      url = Url.create_link(valid_attributes).url
       expect {
         delete :destroy, {:id => url.to_param}, valid_session
       }.to change(Url, :count).by(-1)
     end
 
     it "redirects to the urls list" do
-      url = Url.create! valid_attributes
+      url = Url.create_link(valid_attributes).url
       delete :destroy, {:id => url.to_param}, valid_session
       expect(response).to redirect_to(urls_url)
     end

@@ -24,11 +24,11 @@ RSpec.describe LinksController, type: :controller do
   # Link. As you add validations to Link, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { identifier: "Identifier", url_id: 1 }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { identifier: "", url_id: 0 }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +103,14 @@ RSpec.describe LinksController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { identifier: "New Identifier", url_id: 2 }
       }
 
       it "updates the requested link" do
         link = Link.create! valid_attributes
         put :update, {:id => link.to_param, :link => new_attributes}, valid_session
         link.reload
-        skip("Add assertions for updated state")
+        expect(assigns(:link)).to eq(link)
       end
 
       it "assigns the requested link as @link" do
