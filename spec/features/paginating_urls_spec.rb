@@ -1,18 +1,13 @@
 require 'rails_helper'
 
 feature 'Paginating Urls' do
-  before do
-    @default_per_page = WillPaginate.per_page
-    WillPaginate.per_page = 4
+  let(:per_page) { WillPaginate.per_page }
 
-    12.times do |i|
+  before do
+    (3*per_page).times do |i|
       Url.create_link( FFaker::Internet.http_url )
     end
     visit urls_path
-  end
-
-  after do
-    WillPaginate.per_page = @default_per_page
   end
 
   it { expect(page).to have_selector('div .pagination') }
@@ -24,6 +19,7 @@ feature 'Paginating Urls' do
   end
 
   it 'display pagination' do
+
     expect(all('.pagination li a', text: /\d/).count ).to eql 3
 
     within '.pagination .next' do
